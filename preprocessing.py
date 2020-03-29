@@ -13,10 +13,10 @@ class MinMaxScaler():
 
         return self
 
-    def transfrom(self, X: n.ndarray):
-        assert self.mean_ is not None and self.scale_ is not None, "Fit should be done before transforming"
+    def transfrom(self, X: np.ndarray):
+        assert self.max_ is not None and self.min_ is not None, "Fit should be done before transforming"
         assert X.shape[1] == len(
-            self.mean_), "Test data should have same coloumns as train data."
+            self.min_), "Test data should have same coloumns as train data."
         assert X.ndim == 2
 
         return (X-self.min_)/(self.max_-self.min_)

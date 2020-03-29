@@ -21,11 +21,12 @@ def knn(data: np.array, target: np.array, x, k):
     return votes.most_common(1)[0][0]
 
 
-class KNNclassifier():
+class KNclassifier():
     def __init__(self, k, weights='uniform'):
         k = int(k)
         assert k >= 1, "k must be a valid interger"
-        assert weights in ['uniform', 'distance'] ,"weights can only be 'uniform' or 'distance'"
+        assert weights in [
+            'uniform', 'distance'], "weights can only be 'uniform' or 'distance'"
         self.weights = weights
         self.train_data: np.ndarray = None
         self.train_target: np.ndarray = None
@@ -39,7 +40,7 @@ class KNNclassifier():
             k_weights = np.ones(len(k_inx))
         if self.weights == 'distance':
             k_weights = 1/distances[k_inx]
-        
+
         k_targets = self.train_target[k_inx]
         votes = Counter(self.train_target[k_inx])
         for item in votes.keys():
@@ -62,6 +63,6 @@ class KNNclassifier():
         y = [self._predict(x) for x in X]
         return np.array(y)
 
-    def score(self, test_x, test_y):
-        prediction = self.predict(test_x)
-        return accuracy_score(test_y, prediction)
+    def score(self, X, y):
+        prediction = self.predict(X)
+        return accuracy_score(y, prediction)
