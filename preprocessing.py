@@ -1,7 +1,7 @@
 import numpy as np
 
 
-class MinMaxScaler():
+class MinMaxScaler:
     def __init__(self):
         self.max_ = None
         self.min_ = None
@@ -14,15 +14,16 @@ class MinMaxScaler():
         return self
 
     def transfrom(self, X: np.ndarray):
-        assert self.max_ is not None and self.min_ is not None, "Fit should be done before transforming"
+        assert (self.max_ is not None and self.min_ is not None
+                ), "Fit should be done before transforming"
         assert X.shape[1] == len(
             self.min_), "Test data should have same coloumns as train data."
         assert X.ndim == 2
 
-        return (X-self.min_)/(self.max_-self.min_)
+        return (X - self.min_) / (self.max_ - self.min_)
 
 
-class StandardScaler():
+class StandardScaler:
     def __init__(self):
         self.mean_ = None
         self.scale_ = None
@@ -36,8 +37,9 @@ class StandardScaler():
         return self
 
     def transform(self, X: np.ndarray):
-        assert self.mean_ is not None and self.scale_ is not None, "Fit should be done before transforming"
+        assert (self.mean_ is not None and self.scale_ is not None
+                ), "Fit should be done before transforming"
         assert X.shape[1] == len(
             self.mean_), "Test data should have same coloumns as train data."
         assert X.ndim == 2
-        return (X-self.mean_)/self.scale_
+        return (X - self.mean_) / self.scale_
