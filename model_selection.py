@@ -9,6 +9,6 @@ def train_test_split(X: np.ndarray, y: np.ndarray, test_ratio=0.2, seed=None):
     test_size = int(counts * test_ratio)
     np.random.seed(seed)
     random_inx = np.random.permutation(np.arange(counts))
-    test_inx = random_inx[: int(test_size)]
-    train_inx = random_inx[int(test_size) :]
+    test_inx = random_inx[:int(test_size)]
+    train_inx = random_inx[int(test_size):]
     return X[train_inx], X[test_inx], y[train_inx], y[test_inx]
