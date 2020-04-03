@@ -6,7 +6,7 @@ class PCA:
         n = int(n)
         assert n >= 1, "numbers of features must be at least 1."
         self._n = n
-        self.compenents_ = None
+        self.compenents_: np.ndarray = None
 
     def _demean(self, X: np.ndarray):
         return X - X.mean(axis=0)
@@ -24,7 +24,7 @@ class PCA:
     def _components(self,
                     w: np.ndarray,
                     X: np.ndarray,
-                    max_iter=20,
+                    max_iter=1e3,
                     epsilon=1e-6,
                     eta=0.01):
         w = np.ones(X.shape[1])
@@ -40,10 +40,8 @@ class PCA:
     def fit(self, X: np.ndarray):
         assert X.ndim == 2, "X must be 2 dimensional."
         assert X.shape[1] >= self._n
-        X_p = X.copy()
-        X_p = self._demean(X_p)
+        X_p = self._demean(X)
         W = []
-        #res = []
         for _ in np.arange(self._n):
             w = np.ones([X.shape[1]])
             w = self._components(w, X_p)
@@ -51,12 +49,13 @@ class PCA:
             k_component = X_p.dot(w)
             X_p = self._demean(X_p - k_component.reshape(-1, 1) * w)
         self.compenents_ = np.array(W)
+        return self
 
     def transform(self, X: np.ndarray):
-        assert self.compenents_ is not None
+        assert self.compenents_ is not None, "Fit must be done before transforming"
         return X.dot(self.compenents_.T)
 
-    def restore(self, X_p: np.ndarray):
-        assert self.compenents_ is not None
+    def inverse_transform(self, X_p: np.ndarray):
+        assert self.compenents_ is not None, "Fit must be done before restoring"
         assert X_p.shape[1] == self.compenents_.shape[0]
         return X_p.dot(self.compenents_)
