@@ -104,7 +104,3 @@ class LinearRegressor():
     def score(self, X, y):
         prediction = self.predict(X)
         return r2_score(y, prediction)
-
-    def fit(self, X: np.ndarray, y: np.ndarray):
-        assert X.shape[0] == y.shape[
-            0], "size of training data must be equal to training target."

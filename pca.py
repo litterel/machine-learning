@@ -24,14 +24,15 @@ class PCA:
     def _components(self,
                     w: np.ndarray,
                     X: np.ndarray,
-                    max_iter=1e3,
-                    epsilon=1e-6,
+                    max_iter=1e4,
+                    epsilon=1e-8,
                     eta=0.01):
         w = np.ones(X.shape[1])
         for _ in np.arange(max_iter):
+            learning_rate = 5 / (50 + iter)
             last_f = self._f(w, X)
             gradient = self._df(w, X)
-            w = w + eta + gradient
+            w = w + learning_rate * gradient
             w = self._normalize(w)
             if np.abs(last_f - self._f(w, X)) < epsilon:
                 break
@@ -41,13 +42,14 @@ class PCA:
         assert X.ndim == 2, "X must be 2 dimensional."
         assert X.shape[1] >= self._n
         X_p = self._demean(X)
+
         W = []
         for _ in np.arange(self._n):
             w = np.ones([X.shape[1]])
             w = self._components(w, X_p)
             W.append(w)
             k_component = X_p.dot(w)
-            X_p = self._demean(X_p - k_component.reshape(-1, 1) * w)
+            X_p = X_p - k_component.reshape(-1, 1) * w
         self.compenents_ = np.array(W)
         return self
 
