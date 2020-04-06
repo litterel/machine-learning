@@ -1,8 +1,10 @@
 import numpy as np
+
 from metrics import accuracy_score
 
+log = np.math.log
 
-class LogosticRegressor():
+class LogisticRegressor():
     def __init__(self):
         #self.train_X = None
         #self.train_y = None
@@ -19,16 +21,12 @@ class LogosticRegressor():
         assert X_b.shape[0] == len(y), "X must have the same size as y"
         sig = self._sigmoid(X_b.dot(theta))
         try:
-            return np.sum(y * np.math.log(1 / sig - 1) -
-                          np.math.log(1 - sig)) / len(y)
+            return (np.sum(-y * log(sig) - (1 - y) * log(1 - sig))) / len(y)
         except:
             return np.inf
 
     def _J_partial(self, X_b: np.ndarray, theta: np.ndarray, y: np.ndarray):
         return X_b.T.dot(self._sigmoid(X_b.dot(theta)) - y) / len(y)
-
-    def _J_partial_sgd(self, x_b: np.ndarray, theta: np.ndarray, y):
-        return 2 * x_b * (np.sum(x_b * theta) - y)
 
     def fit_sgd(self,
                 X_train: np.ndarray,
@@ -68,7 +66,7 @@ class LogosticRegressor():
                X_train: np.ndarray,
                y_train: np.ndarray,
                eta=0.01,
-               max_iter=1e4,
+               max_iter=1e3,
                epsilon=1e-5):
         '''data must be normalized before fitting, otherwise you might encounter overflow.'''
 
@@ -88,7 +86,7 @@ class LogosticRegressor():
         self.coef_ = self._theta[1:]
 
     def fit(self, X, y):
-        self.fit_sgd(X, y)
+        self.fit_gd(X, y)
 
     def _predict_prob(self, X: np.ndarray):
         assert self._theta is not None
