@@ -93,7 +93,9 @@ class LinearRegressor():
         self.b_ = self._theta[0]
         self.coef_ = self._theta[1:]
         return self
-
+    
+    def fit(self, X,y):
+        self.fit_sgd(X,y)
     def predict(self, X: np.ndarray):
         assert self._theta is not None
         assert X.ndim == 2, "X should be 2 dimensional."
