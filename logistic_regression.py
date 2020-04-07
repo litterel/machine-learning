@@ -1,6 +1,6 @@
 import numpy as np
 
-from metrics import accuracy_score
+from metric import accuracy_score
 
 log = np.math.log
 

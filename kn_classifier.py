@@ -1,6 +1,6 @@
 import numpy as np
 from collections import Counter
-from metrics import accuracy_score
+from metric import accuracy_score
 
 
 def knn(data: np.array, target: np.array, x, k):
