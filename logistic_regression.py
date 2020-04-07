@@ -28,40 +28,7 @@ class LogisticRegressor():
     def _J_partial(self, X_b: np.ndarray, theta: np.ndarray, y: np.ndarray):
         return X_b.T.dot(self._sigmoid(X_b.dot(theta)) - y) / len(y)
 
-    def fit_sgd(self,
-                X_train: np.ndarray,
-                y_train: np.ndarray,
-                max_iter=10,
-                t0=1,
-                t1=50):
-        '''data must be normalized before fitting, otherwise you might encounter overflow.
-            You should choose t0 and t1 carefully.
-        '''
-
-        assert X_train.shape[0] == y_train.shape[
-            0], "X must have the same size as y"
-
-        X_b: np.ndarray = np.hstack([np.ones((len(X_train), 1)), X_train])
-        self._theta = np.ones(X_b.shape[1])
-        m = len(X_b)
-        for iter in np.arange(max_iter):
-            random_inx = np.random.permutation(m)
-            for i in np.arange(m):
-                learning_rate = t0 / (t1 + iter * m)
-                last_J = self._J(X_b, self._theta, y_train)
-                gradient_s = self._J_partial_sgd(X_b[random_inx[i]],
-                                                 self._theta,
-                                                 y_train[random_inx[i]])
-                self._theta -= learning_rate * gradient_s
-            '''
     
-            if np.abs(X_b, self._theta, y_train - last_J) < epsilon:
-                break
-            '''
-
-        self.b_ = self._theta[0]
-        self.coef_ = self._theta[1:]
-
     def fit_gd(self,
                X_train: np.ndarray,
                y_train: np.ndarray,
