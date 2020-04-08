@@ -13,7 +13,7 @@
 
 ## PCA
 - 梯度上升法实现PCA，在特征比较多时会出现最后几个主成分计算错误的情况，可能是因为后期损失函数过于平坦，导致梯度下降法无法收敛到全局最优
-- [ ] PCA explained_variance_ratio_
+- [ ] PCA 实现 `explained_variance_ratio_`
 - [ ] SVD分解实现PCA
 
 ## 偏差与方差
@@ -28,7 +28,9 @@
 
 ## Logistics Regression
 - 多分类问题 OvO OvR
+- 可以利用 `decision_function` 来改变预测的阈值
 
 ## 模型评价
-- 对于skewed data，准确率不能完全说明算法的性能
-- 精准率，召回率，
+- 对于skewed data，准确率不能完全说明算法的性能，需要精准率和召回率。
+- 在不同应用场景中精准率和召回率的重要性不同，比如在股票预测中精准率更重要，而在癌症检查中召回率更重要，实际情况中precision和recall需要权衡取舍，或者取得一个平衡
+- 
