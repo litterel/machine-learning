@@ -4,6 +4,7 @@ from metric import accuracy_score
 
 log = np.math.log
 
+
 class LogisticRegressor():
     def __init__(self):
         #self.train_X = None
@@ -28,7 +29,6 @@ class LogisticRegressor():
     def _J_partial(self, X_b: np.ndarray, theta: np.ndarray, y: np.ndarray):
         return X_b.T.dot(self._sigmoid(X_b.dot(theta)) - y) / len(y)
 
-    
     def fit_gd(self,
                X_train: np.ndarray,
                y_train: np.ndarray,
@@ -61,6 +61,9 @@ class LogisticRegressor():
         assert X.shape[1] == len(self.coef_)
         X_b = np.hstack([np.ones((len(X), 1)), X])
         return self._sigmoid(X_b.dot(self._theta))
+
+    def decision_function(self, X: np.ndarray):
+        return X.dot(self._theta) + 1
 
     def predict(self, X: np.ndarray):
         probability = self._predict_prob(X)
